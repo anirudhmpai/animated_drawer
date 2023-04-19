@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  int indexCurrent = 0;
   late SMIBool homeTrigger;
   late SMIBool timerTrigger;
   late SMIBool isDrawerOpen;
@@ -57,6 +58,45 @@ class _HomePageState extends State<HomePage>
         backgroundColor: Colors.blueGrey.shade900,
         resizeToAvoidBottomInset: false,
         extendBody: true,
+        bottomNavigationBar: AnimatedOpacity(
+          duration: const Duration(milliseconds: 100),
+          opacity: isSideMenuOpen ? drawerAnimation.value / 100 : 1,
+          child: Transform.translate(
+            offset: Offset(0, drawerAnimation.value * 100),
+            child: SafeArea(
+              child: BottomNavigationBar(
+                  currentIndex: indexCurrent,
+                  onTap: (value) {
+                    indexCurrent = value;
+                    setState(() {});
+                  },
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.grey,
+                  items: const [
+                    BottomNavigationBarItem(
+                        label: '0',
+                        icon: Icon(
+                          Icons.abc,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '1',
+                        icon: Icon(
+                          Icons.ac_unit,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '2',
+                        icon: Icon(
+                          Icons.access_alarm,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '3',
+                        icon: Icon(
+                          Icons.access_time,
+                        )),
+                  ]),
+            ),
+          ),
+        ),
         body: SwipeDetector(
           onSwipeRight: () => toggleDrawer(),
           onSwipeLeft: () => toggleDrawer(),
