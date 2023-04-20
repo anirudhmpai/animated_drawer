@@ -4,7 +4,6 @@ import 'package:animated_drawer/components/menu_button.dart';
 import 'package:animated_drawer/components/side_drawer.dart';
 import 'package:animated_drawer/components/swipe_detector.dart';
 import 'package:animated_drawer/rive_utils.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -98,8 +97,8 @@ class _HomePageState extends State<HomePage>
           ),
         ),
         body: SwipeDetector(
-          onSwipeRight: () => toggleDrawer(),
-          onSwipeLeft: () => toggleDrawer(),
+          onSwipeRight: () => isSideMenuOpen ? {} : toggleDrawer(),
+          onSwipeLeft: () => isSideMenuOpen ? toggleDrawer() : {},
           child: Stack(
             children: [
               AnimatedPositioned(
@@ -142,7 +141,7 @@ class _HomePageState extends State<HomePage>
                             stateMachineName: 'switch');
                     isDrawerOpen = controller.findSMI('toggleX') as SMIBool;
                     setState(() {});
-                    debugPrint(isDrawerOpen.value.toString());
+                    // debugPrint(isDrawerOpen.value.toString());
                   },
                 ),
               ),
@@ -157,7 +156,7 @@ class _HomePageState extends State<HomePage>
     isDrawerOpen.value = !isDrawerOpen.value;
     isSideMenuOpen = !isSideMenuOpen;
     setState(() {});
-    debugPrint(isDrawerOpen.value.toString());
+    // debugPrint(isDrawerOpen.value.toString());
     if (isSideMenuOpen) {
       drawerAnimationController.forward();
     } else {

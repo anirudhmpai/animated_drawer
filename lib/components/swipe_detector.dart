@@ -64,18 +64,18 @@ class SwipeDetector extends StatelessWidget {
         // if (mainVel < minVelocity) return;
 
         if (mainDis < minMainDisplacement) {
-          debugPrint(
-              "SWIPE DEBUG | Displacement too short. Real: $mainDis - Min: $minMainDisplacement");
+          // debugPrint(
+          //     "SWIPE DEBUG | Displacement too short. Real: $mainDis - Min: $minMainDisplacement");
           return;
         }
         if (crossDis > maxCrossRatio * mainDis) {
-          debugPrint(
-              "SWIPE DEBUG | Cross axis displacement bigger than limit. Real: $crossDis - Limit: ${mainDis * maxCrossRatio}");
+          // debugPrint(
+          //     "SWIPE DEBUG | Cross axis displacement bigger than limit. Real: $crossDis - Limit: ${mainDis * maxCrossRatio}");
           return;
         }
         if (mainVel < minVelocity) {
-          debugPrint(
-              "SWIPE DEBUG | Swipe velocity too slow. Real: $mainVel - Min: $minVelocity");
+          // debugPrint(
+          //     "SWIPE DEBUG | Swipe velocity too slow. Real: $mainVel - Min: $minVelocity");
           return;
         }
 
