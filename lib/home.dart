@@ -7,6 +7,8 @@ import 'package:animated_drawer/rive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
+import 'modules/first_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,8 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   int indexCurrent = 0;
-  late SMIBool homeTrigger;
-  late SMIBool timerTrigger;
+
   late SMIBool isDrawerOpen;
   late bool isSideMenuOpen = false;
 
@@ -164,59 +165,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  Container bodyContent() {
-    return Container(
-      color: Colors.blueGrey.shade500,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 32),
-            const Text('----------------Animated Sidebar---------------'),
-            InkWell(
-              onTap: () {
-                homeTrigger.change(true);
-                Future.delayed(const Duration(seconds: 1))
-                    .then((value) => homeTrigger.change(false));
-              },
-              child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    'assets/rive_animations/animated_icons.riv',
-                    artboard: 'HOME',
-                    onInit: (artboard) {
-                      StateMachineController controller =
-                          RiveUtils.getRiveController(artboard,
-                              stateMachineName: 'HOME_interactivity');
-                      homeTrigger = controller.findSMI("active") as SMIBool;
-                    },
-                  )),
-            ),
-            InkWell(
-              onTap: () {
-                timerTrigger.change(true);
-                Future.delayed(const Duration(seconds: 1))
-                    .then((value) => timerTrigger.change(false));
-              },
-              child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: RiveAnimation.asset(
-                    'assets/rive_animations/animated_icons.riv',
-                    artboard: 'TIMER',
-                    onInit: (artboard) {
-                      StateMachineController controller =
-                          RiveUtils.getRiveController(artboard,
-                              stateMachineName: 'TIMER_Interactivity');
-                      timerTrigger = controller.findSMI("active") as SMIBool;
-                    },
-                  )),
-            )
-          ],
-        ),
-      ),
-    );
+  Widget bodyContent() {
+    return [const FirstPage()].elementAt(indexCurrent);
   }
 }
