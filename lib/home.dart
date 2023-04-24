@@ -7,9 +7,11 @@ import 'package:animated_drawer/modules/fouth_page.dart';
 import 'package:animated_drawer/modules/second_page.dart';
 import 'package:animated_drawer/modules/third_page.dart';
 import 'package:animated_drawer/rive_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
+import 'modules/fifth_page.dart';
 import 'modules/first_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,46 +62,7 @@ class _HomePageState extends State<HomePage>
       child: Scaffold(
         backgroundColor: Colors.blueGrey.shade900,
         resizeToAvoidBottomInset: false,
-        extendBody: true,
-        bottomNavigationBar: AnimatedOpacity(
-          duration: const Duration(milliseconds: 100),
-          opacity: isSideMenuOpen ? drawerAnimation.value / 100 : 1,
-          child: Transform.translate(
-            offset: Offset(0, drawerAnimation.value * 100),
-            child: SafeArea(
-              child: BottomNavigationBar(
-                  currentIndex: indexCurrent,
-                  onTap: (value) {
-                    indexCurrent = value;
-                    setState(() {});
-                  },
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.grey,
-                  items: const [
-                    BottomNavigationBarItem(
-                        label: '0',
-                        icon: Icon(
-                          Icons.abc,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '1',
-                        icon: Icon(
-                          Icons.ac_unit,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '2',
-                        icon: Icon(
-                          Icons.access_alarm,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '3',
-                        icon: Icon(
-                          Icons.access_time,
-                        )),
-                  ]),
-            ),
-          ),
-        ),
+        extendBody: isSideMenuOpen,
         body: SwipeDetector(
           onSwipeRight: () => isSideMenuOpen ? {} : toggleDrawer(),
           onSwipeLeft: () => isSideMenuOpen ? toggleDrawer() : {},
@@ -152,6 +115,46 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
+        bottomNavigationBar: AnimatedOpacity(
+          duration: const Duration(milliseconds: 100),
+          opacity: isSideMenuOpen ? drawerAnimation.value / 100 : 1,
+          child: Transform.translate(
+            offset: Offset(0, drawerAnimation.value * 100),
+            child: SafeArea(
+              child: BottomNavigationBar(
+                  currentIndex: indexCurrent,
+                  onTap: (value) {
+                    indexCurrent = value;
+                    setState(() {});
+                  },
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.grey,
+                  showSelectedLabels: false,
+                  items: const [
+                    BottomNavigationBarItem(
+                        label: '0',
+                        icon: Icon(
+                          Icons.account_tree,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '1',
+                        icon: Icon(
+                          Icons.ac_unit,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '2',
+                        icon: Icon(
+                          Icons.adb,
+                        )),
+                    BottomNavigationBarItem(
+                        label: '3',
+                        icon: Icon(
+                          CupertinoIcons.ant_fill,
+                        )),
+                  ]),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -170,10 +173,13 @@ class _HomePageState extends State<HomePage>
 
   Widget bodyContent() {
     return [
-      const FirstPage(),
-      const SecondPage(),
-      const ThirdPage(),
-      const FourthPage()
-    ].elementAt(indexCurrent);
+      [
+        const FirstPage(),
+        const SecondPage(),
+        const ThirdPage(),
+        const FourthPage()
+      ].elementAt(indexCurrent),
+      const FifthPage()
+    ].elementAt(1);
   }
 }
