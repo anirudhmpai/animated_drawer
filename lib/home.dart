@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:animated_drawer/components/menu_button.dart';
 import 'package:animated_drawer/components/side_drawer.dart';
 import 'package:animated_drawer/components/swipe_detector.dart';
+import 'package:animated_drawer/modules/fouth_page.dart';
+import 'package:animated_drawer/modules/second_page.dart';
+import 'package:animated_drawer/modules/third_page.dart';
 import 'package:animated_drawer/rive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -166,6 +169,11 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget bodyContent() {
-    return [const FirstPage()].elementAt(indexCurrent);
+    return [
+      const FirstPage(),
+      const SecondPage(),
+      const ThirdPage(),
+      const FourthPage()
+    ].elementAt(indexCurrent);
   }
 }
