@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:animated_drawer/components/menu_button.dart';
 import 'package:animated_drawer/components/side_drawer.dart';
 import 'package:animated_drawer/components/swipe_detector.dart';
-import 'package:animated_drawer/modules/fouth_page.dart';
+import 'package:animated_drawer/modules/fourth_page.dart';
 import 'package:animated_drawer/modules/second_page.dart';
 import 'package:animated_drawer/modules/third_page.dart';
 import 'package:animated_drawer/rive_utils.dart';
@@ -24,6 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   int indexCurrent = 0;
+  int indexCurrentSide = 0;
 
   late SMIBool isDrawerOpen;
   late bool isSideMenuOpen = false;
@@ -74,7 +75,13 @@ class _HomePageState extends State<HomePage>
                 left: isSideMenuOpen ? 0 : -drawerWidth,
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.fastOutSlowIn,
-                child: const SideDrawer(),
+                child: SideDrawer(
+                  currentIndex: indexCurrentSide,
+                  onClick: (index) {
+                    indexCurrentSide = index;
+                    setState(() {});
+                  },
+                ),
               ),
               Transform(
                 alignment: Alignment.center,
@@ -115,46 +122,48 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-        bottomNavigationBar: AnimatedOpacity(
-          duration: const Duration(milliseconds: 100),
-          opacity: isSideMenuOpen ? drawerAnimation.value / 100 : 1,
-          child: Transform.translate(
-            offset: Offset(0, drawerAnimation.value * 100),
-            child: SafeArea(
-              child: BottomNavigationBar(
-                  currentIndex: indexCurrent,
-                  onTap: (value) {
-                    indexCurrent = value;
-                    setState(() {});
-                  },
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.grey,
-                  showSelectedLabels: false,
-                  items: const [
-                    BottomNavigationBarItem(
-                        label: '0',
-                        icon: Icon(
-                          Icons.account_tree,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '1',
-                        icon: Icon(
-                          Icons.ac_unit,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '2',
-                        icon: Icon(
-                          Icons.adb,
-                        )),
-                    BottomNavigationBarItem(
-                        label: '3',
-                        icon: Icon(
-                          CupertinoIcons.ant_fill,
-                        )),
-                  ]),
-            ),
-          ),
-        ),
+        bottomNavigationBar: indexCurrentSide == 0
+            ? AnimatedOpacity(
+                duration: const Duration(milliseconds: 100),
+                opacity: isSideMenuOpen ? drawerAnimation.value / 100 : 1,
+                child: Transform.translate(
+                  offset: Offset(0, drawerAnimation.value * 100),
+                  child: SafeArea(
+                    child: BottomNavigationBar(
+                        currentIndex: indexCurrent,
+                        onTap: (value) {
+                          indexCurrent = value;
+                          setState(() {});
+                        },
+                        selectedItemColor: Colors.black,
+                        unselectedItemColor: Colors.grey,
+                        showSelectedLabels: false,
+                        items: const [
+                          BottomNavigationBarItem(
+                              label: '0',
+                              icon: Icon(
+                                Icons.account_tree,
+                              )),
+                          BottomNavigationBarItem(
+                              label: '1',
+                              icon: Icon(
+                                Icons.ac_unit,
+                              )),
+                          BottomNavigationBarItem(
+                              label: '2',
+                              icon: Icon(
+                                Icons.adb,
+                              )),
+                          BottomNavigationBarItem(
+                              label: '3',
+                              icon: Icon(
+                                CupertinoIcons.ant_fill,
+                              )),
+                        ]),
+                  ),
+                ),
+              )
+            : const SizedBox(),
       ),
     );
   }
@@ -179,7 +188,11 @@ class _HomePageState extends State<HomePage>
         const ThirdPage(),
         const FourthPage()
       ].elementAt(indexCurrent),
-      const FifthPage()
-    ].elementAt(1);
+      const FifthPage(),
+      const FifthPage(),
+      const FifthPage(),
+      const FifthPage(),
+      const FifthPage(),
+    ].elementAt(indexCurrentSide);
   }
 }

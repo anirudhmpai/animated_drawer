@@ -7,14 +7,23 @@ import 'side_tile.dart';
 double drawerWidth = 288;
 
 class SideDrawer extends StatefulWidget {
-  const SideDrawer({super.key});
+  const SideDrawer(
+      {super.key, required this.currentIndex, required this.onClick});
+  final int currentIndex;
+  final ValueChanged<int> onClick;
 
   @override
   State<SideDrawer> createState() => _SideDrawerState();
 }
 
 class _SideDrawerState extends State<SideDrawer> {
-  RiveAsset selectedMenu = menu1.first;
+  late RiveAsset selectedMenu;
+  @override
+  void initState() {
+    selectedMenu = menu1.elementAt(widget.currentIndex);
+    // menu1.first;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +58,7 @@ class _SideDrawerState extends State<SideDrawer> {
                       Future.delayed(const Duration(seconds: 1))
                           .then((value) => menu.inputValue!.change(false));
                       selectedMenu = menu;
+                      widget.onClick(selectedMenu.index);
                       setState(() {});
                     },
                     riveInit: (artboard) {
@@ -76,6 +86,7 @@ class _SideDrawerState extends State<SideDrawer> {
                       Future.delayed(const Duration(seconds: 1))
                           .then((value) => menu.inputValue!.change(false));
                       selectedMenu = menu;
+                      widget.onClick(selectedMenu.index);
                       setState(() {});
                     },
                     riveInit: (artboard) {
@@ -96,11 +107,13 @@ class _SideDrawerState extends State<SideDrawer> {
 class RiveAsset {
   final String artboard, stateMachineName, title;
   late SMIBool? inputValue;
+  final int index;
 
   RiveAsset({
     required this.artboard,
     required this.stateMachineName,
     required this.title,
+    required this.index,
     this.inputValue,
   });
 
@@ -111,21 +124,25 @@ class RiveAsset {
 
 List<RiveAsset> menu1 = [
   RiveAsset(
+    index: 0,
     artboard: 'HOME',
     title: 'Home',
     stateMachineName: 'HOME_interactivity',
   ),
   RiveAsset(
+    index: 1,
     artboard: 'SEARCH',
     title: 'Search',
     stateMachineName: 'SEARCH_Interactivity',
   ),
   RiveAsset(
+    index: 2,
     artboard: 'LIKE/STAR',
     title: 'Favorites',
     stateMachineName: 'STAR_Interactivity',
   ),
   RiveAsset(
+    index: 3,
     artboard: 'CHAT',
     title: 'Chat',
     stateMachineName: 'CHAT_Interactivity',
@@ -134,11 +151,13 @@ List<RiveAsset> menu1 = [
 
 List<RiveAsset> menu2 = [
   RiveAsset(
+    index: 4,
     artboard: 'TIMER',
     title: 'History',
     stateMachineName: 'TIMER_Interactivity',
   ),
   RiveAsset(
+    index: 5,
     artboard: 'BELL',
     title: 'Notifications',
     stateMachineName: 'BELL_Interactivity',
